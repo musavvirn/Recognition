@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <ImageView fx:id="currentFrame" fitHeight="350.0" fitWidth="580.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="30.0" left="10.0" />
+         </GridPane.margin>
+      </ImageView>
+      <Button fx:id="detect_btn" mnemonicParsing="false" onAction="#detectObj" prefHeight="25.0" prefWidth="100.0" text="Detect" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="-100.0" left="5.0" />
+         </GridPane.margin></Button>
+      <Button fx:id="mark_btn" layoutX="15.0" layoutY="381.0" mnemonicParsing="false" onAction="#markObj" prefHeight="25.0" prefWidth="100.0" text="Mark " GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="-100.0" left="110.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="detail_btn" layoutX="120.0" layoutY="381.0" mnemonicParsing="false" onAction="#getDetails" prefHeight="25.0" prefWidth="100.0" text="Details" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="-100.0" left="5.0" />
+         </GridPane.margin>
+      </Button>
+   </children>
+</GridPane>
