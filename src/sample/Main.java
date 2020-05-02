@@ -24,11 +24,8 @@ import java.io.File;
 
 public class Main extends Application {
 
-
-
     @Override
     public void start(Stage primaryStage) throws Exception{
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         GridPane root = (GridPane) loader.load();
 
@@ -43,21 +40,6 @@ public class Main extends Application {
             }
         }));
 
-
-
-//        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-//        Image img = new Image("resources/img1.jpg", 800, 500, false, false);
-//
-//        primaryStage.setScene(new Scene(root, 300, 275));
-//        primaryStage.show();
-
-
-
-
-        //Scene scene = new Scene(vbox);
-        //primaryStage.setScene(scene);
-        //primaryStage.setTitle("Test Image");
-        //primaryStage.show();
     }
 
 

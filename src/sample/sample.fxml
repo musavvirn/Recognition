@@ -38,5 +38,9 @@
             <Insets bottom="-100.0" left="5.0" />
          </GridPane.margin>
       </Button>
+      <Button fx:id="camera_btn" layoutX="215.0" layoutY="381.0" mnemonicParsing="false" onAction="#startCamera" prefHeight="25.0" prefWidth="100.0" text="Start Camera" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="-100.0" left="95.0" />
+         </GridPane.margin></Button>
    </children>
 </GridPane>
