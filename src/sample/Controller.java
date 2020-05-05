@@ -1,6 +1,10 @@
 package sample;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -22,10 +26,13 @@ public class Controller {
 
     private CascadeClassifier faceCascade = new CascadeClassifier();
     private int absoluteFaceSize = 0;
-    private boolean detectorON = false;
+
 
     @FXML
-    private Button button;
+    private Button detect_btn;
+    private boolean detectorON = false;
+
+
     @FXML
     private ImageView currentFrame;
     private VideoCapture capture = new VideoCapture();
@@ -35,10 +42,25 @@ public class Controller {
 
     @FXML
     protected void detectObj() {
-        this.detectorON = true;
-        this.loadCascade();
+        if (!this.detectorON) {
+            this.detectorON = true;
+            this.loadCascade();
+
+
+        } else {
+            this.detectorON = false;
+
+        }
+
         this.grabframe();
+        this.changeDetectBtnLabel();
+
     }
+
+    private void changeDetectBtnLabel() {
+        this.detect_btn.setText((this.detectorON) ? "Detector OFF" : "Detector ON");
+    }
+
     @FXML
     protected void markObj() {
 
@@ -57,8 +79,6 @@ public class Controller {
 
             if (this.capture.isOpened()) {
                 this.cameraActive = true;
-                // load Haar or LBP cascade classifer
-                //this.loadCascade();
                 Runnable frameGrabber = new Runnable() {
                     @Override
                     public void run() {
@@ -71,14 +91,14 @@ public class Controller {
 
                 this.timer = Executors.newSingleThreadScheduledExecutor();
                 this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
-                //this.button.setLabel("Stop Camera");
+
+
 
             } else {
                 System.err.println("Impossible to open camera...");
             }
         } else {
             this.cameraActive = false;
-            this.button.setLabel("Start Camera");
             this.stopAcquisition();
         }
 

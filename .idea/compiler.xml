@@ -14,7 +14,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Recognition" options="--add-modules=javafx.graphics,javafx.fxml,javafx.base,javafx.swing" />
+      <module name="Recognition" options="--add-modules=javafx.graphics,javafx.fxml,javafx.base,javafx.swing,javafx.controls" />
     </option>
   </component>
 </project>
