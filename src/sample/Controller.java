@@ -1,21 +1,15 @@
 package sample;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
-
-import java.awt.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -32,13 +26,23 @@ public class Controller {
     private Button detect_btn;
     private boolean detectorON = false;
 
+    @FXML
+    private Button camera_btn;
+    private boolean cameraActive = false;
+
 
     @FXML
     private ImageView currentFrame;
     private VideoCapture capture = new VideoCapture();
     private ScheduledExecutorService timer;
-    private boolean cameraActive = false;
     private static int cameraId = 0;
+
+    private void loadCascade()
+    {
+        // load the classifier(s)
+        this.faceCascade.load(HAAR_PATH);
+
+    }
 
     @FXML
     protected void detectObj() {
@@ -57,8 +61,14 @@ public class Controller {
 
     }
 
+
+
     private void changeDetectBtnLabel() {
         this.detect_btn.setText((this.detectorON) ? "Detector OFF" : "Detector ON");
+    }
+
+    private void changeCameraBtnLabel() {
+        this.camera_btn.setText((this.cameraActive) ? "Stop Camera" : "Start Camera");
     }
 
     @FXML
@@ -79,6 +89,8 @@ public class Controller {
 
             if (this.capture.isOpened()) {
                 this.cameraActive = true;
+                this.changeCameraBtnLabel();
+
                 Runnable frameGrabber = new Runnable() {
                     @Override
                     public void run() {
@@ -99,6 +111,7 @@ public class Controller {
             }
         } else {
             this.cameraActive = false;
+            this.changeCameraBtnLabel();
             this.stopAcquisition();
         }
 
@@ -138,14 +151,7 @@ public class Controller {
 
     /* Set cascade classifier path to either Haar or LBP in /resources */
 
-    private void loadCascade()
-    {
-        // load the classifier(s)
-        this.faceCascade.load(HAAR_PATH);
 
-        // now the video capture can start
-        //this.cameraButton.setDisable(false);
-    }
 
     private Mat grabframe() {
         Mat frame = new Mat();
@@ -188,6 +194,8 @@ public class Controller {
 
         if (this.capture.isOpened()) {
             this.capture.release();
+            this.cameraActive = false;
+
         }
     }
 
