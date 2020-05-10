@@ -23,15 +23,23 @@ import java.awt.*;
 import java.io.File;
 
 public class Main extends Application {
+    private static final double MIN_WIDTH = 600;
+    private static final double MIN_HEIGHT = 500;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         GridPane root = (GridPane) loader.load();
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, MIN_WIDTH, MIN_HEIGHT);
         primaryStage.setScene(scene);
+        primaryStage.sizeToScene();
+
         primaryStage.show();
+        primaryStage.setMinWidth(primaryStage.getWidth());
+        primaryStage.setMinHeight(primaryStage.getHeight());
+        primaryStage.setMaxWidth(primaryStage.getHeight());
+        primaryStage.setMaxHeight(primaryStage.getHeight());
         Controller controller = loader.getController();
         primaryStage.setOnCloseRequest((new EventHandler<WindowEvent>() {
             @Override
