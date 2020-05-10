@@ -1,7 +1,9 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -20,6 +22,7 @@ public class Controller {
 
     private CascadeClassifier faceCascade = new CascadeClassifier();
     private int absoluteFaceSize = 0;
+    Rect[] facesArray;
 
 
     @FXML
@@ -29,6 +32,10 @@ public class Controller {
     @FXML
     private Button camera_btn;
     private boolean cameraActive = false;
+
+    @FXML
+    private Label label_box;
+    private boolean labelActive = false;
 
 
     @FXML
@@ -46,16 +53,8 @@ public class Controller {
 
     @FXML
     protected void detectObj() {
-        if (!this.detectorON) {
-            this.detectorON = true;
-            this.loadCascade();
-
-
-        } else {
-            this.detectorON = false;
-
-        }
-
+        this.detectorON = !this.detectorON;
+        if (this.detectorON) this.loadCascade();
         this.grabframe();
         this.changeDetectBtnLabel();
 
@@ -71,13 +70,18 @@ public class Controller {
         this.camera_btn.setText((this.cameraActive) ? "Stop Camera" : "Start Camera");
     }
 
+
     @FXML
     protected void markObj() {
 
     }
 
     @FXML
-    protected void getDetails() {
+    protected void getLabels() {
+        this.labelActive = !this.labelActive;
+        if (!this.labelActive) {
+            this.label_box.setText(null);
+        }
 
     }
 
@@ -138,14 +142,41 @@ public class Controller {
             }
         }
 
-        // detect faces
+        // detect faces & puts each face coordinates of rectangle in list
+        // rectangle coordinates consists of two (x,y) points (of opposite vertices)
         this.faceCascade.detectMultiScale(grayFrame, faces, 1.1, 2, 0 | Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
 
+
+
         // each rectangle in faces is a face: draw them!
-        Rect[] facesArray = faces.toArray();
-        for (int i = 0; i < facesArray.length; i++)
-            Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
+        this.facesArray = faces.toArray();
+
+        for (int i = 0; i < facesArray.length; i++) {
+            Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(255, 0, 0), 3);
+
+            //System.out.println("Coordinates: " + facesArray[i].tl() + ", " + facesArray[i].br());
+
+
+        }
+
+        // display face coordinates as text on label_box
+        // runLater: to do with current thread
+        if (this.labelActive) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    String text = "";
+                    for (int i=0; i<facesArray.length; i++) {
+                        text += facesArray[i].tl() + ", " + facesArray[i].br() + " ";
+                    }
+
+                    label_box.setText(text);
+                }
+            });
+        }
+
+
 
     }
 
